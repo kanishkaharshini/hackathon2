@@ -1,0 +1,20 @@
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** generate(int numRows, int* returnSize, int** returnColumnSizes)
+{
+    int **arr = (int**)malloc((numRows+1)*sizeof(int*));
+    *returnColumnSizes = (int*)calloc(numRows+1,sizeof(int));
+    for( int i = 0 ; i<numRows; i++)
+    {
+        int *row = calloc(i+1,sizeof(int));
+        (*returnColumnSizes)[i] = i+1;
+        row[i] = row[0] = 1;
+        for(int j = 1 , k = 0; j<i ; j++ ,k++) row[j] = arr[i-1][k] + arr[i-1][k+1];
+        (arr)[i] = row;
+    }
+    *returnSize = numRows;
+    return arr;
+}
